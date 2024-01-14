@@ -17,7 +17,7 @@ function Provider({ children }) {
       title: newTitle,
     });
 
-    const updateBooks = books.map((book) => {
+    const updatedBooks = books.map((book) => {
       if (book.id === id) {
         return { ...book, ...response.data };
       }
@@ -25,15 +25,17 @@ function Provider({ children }) {
       return book;
     });
 
-    setBooks(updateBooks);
+    setBooks(updatedBooks);
   };
 
-  const deleteBookById = async function (id) {
+  const deleteBookById = async (id) => {
     await axios.delete(`http://localhost:3001/books/${id}`);
-    const updateBooks = books.filter((book) => {
+
+    const updatedBooks = books.filter((book) => {
       return book.id !== id;
     });
-    setBooks(updateBooks);
+
+    setBooks(updatedBooks);
   };
 
   const createBook = async (title) => {
@@ -41,9 +43,8 @@ function Provider({ children }) {
       title,
     });
 
-    const updateBooks = [...books, response.data];
-
-    setBooks(updateBooks);
+    const updatedBooks = [...books, response.data];
+    setBooks(updatedBooks);
   };
 
   const valueToShare = {
@@ -55,12 +56,11 @@ function Provider({ children }) {
   };
 
   return (
-    <BooksContext.Provider value={{ valueToShare }}>
+    <BooksContext.Provider value={valueToShare}>
       {children}
     </BooksContext.Provider>
   );
 }
 
 export { Provider };
-
 export default BooksContext;
